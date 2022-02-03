@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Quiz Droid</string>
+    <string name="begin">Begin</string>
+    <string name="submit">Submit</string>
+    <string name="selected_answer">Selected Answer: %s</string>
+    <string name="correct_answer">Correct Answer: %s</string>
+    <string name="correct_vs_total">You have %d out of %d correct</string>
+    <string name="next">Next</string>
+    <string name="finish">Finish</string>
+</resources>
