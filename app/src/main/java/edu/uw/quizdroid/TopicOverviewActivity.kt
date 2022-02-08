@@ -4,8 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
-import org.json.JSONObject
 
 class TopicOverviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,41 +15,24 @@ class TopicOverviewActivity : AppCompatActivity() {
         val labelTitle = findViewById<TextView>(R.id.label_title)
         val labelQuestionCount = findViewById<TextView>(R.id.label_question_count)
         val labelDescription = findViewById<TextView>(R.id.label_description)
+        val icon = findViewById<ImageView>(R.id.icon_quiz_overview)
         val btnBegin = findViewById<Button>(R.id.btn_begin)
 
         val topic = intent.getStringExtra("topic")
         labelTitle.text = topic
 
-        val descriptions = """
-        {
-            "Math": {
-                "count": 3,
-                "description": "It is a math quiz."
-            },
-            "Physics": {
-                "count": 2,
-                "description": "It is a physics quiz."
-            },
-            "Marvel Super Heroes": {
-                "count": 1,
-                "description": "It is a quiz about Marvel super heroes."
-            },
-            "Spanish": {
-                "count": 1,
-                "description": "It is a Spanish language quiz."
+        val topics = Topics()
+        val topicObj = topics.getByTitle(topic)
+        if (topicObj != null) {
+            val questionCount = topicObj.questions.size
+            if (questionCount == 1) {
+                labelQuestionCount.text = getString(R.string.one_question)
+            } else {
+                labelQuestionCount.text = getString(R.string.multiple_questions, questionCount)
             }
+            labelDescription.text = topicObj.longDescription
+            icon.setImageResource(topicObj.icon)
         }
-        """
-
-        val descObj = JSONObject(descriptions)
-        val descTopicObj = descObj.getJSONObject(topic)
-        val questionCount = descTopicObj.getInt("count")
-        if (questionCount > 1) {
-            labelQuestionCount.text = "There are $questionCount questions."
-        } else {
-            labelQuestionCount.text = "There is $questionCount question."
-        }
-        labelDescription.text = descTopicObj.getString("description")
 
         btnBegin.setOnClickListener {
             startActivity(

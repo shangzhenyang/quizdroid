@@ -7,4 +7,7 @@
     <string name="correct_vs_total">You have %d out of %d correct</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
+    <string name="one_question">There is 1 question.</string>
+    <string name="multiple_questions">There are %d questions.</string>
+    <string name="quiz_list_item_icon_alt">Icon of Quiz List Item</string>
 </resources>
