@@ -1,6 +1,7 @@
 package edu.uw.quizdroid
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.view.Menu
@@ -9,7 +10,9 @@ import android.widget.ListView
 import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import java.io.File
+import java.util.jar.Manifest
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,12 +20,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val filePath = Environment.getDataDirectory().toString() + "/questions.json"
-        val file = File(filePath)
-        if (!file.exists()) {
-            Toast.makeText(applicationContext, getString(R.string.file_not_exist, filePath), Toast.LENGTH_LONG).show()
-            return
-        }
+//        if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 0);
+//        }
+
+
+//        val filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/questions.json"
+//        val file = File(filePath)
+//        if (!file.exists()) {
+//            Toast.makeText(applicationContext, getString(R.string.file_not_exist, filePath), Toast.LENGTH_LONG).show()
+//            return
+//        }
         val listTopic = findViewById<ListView>(R.id.list_topic)
         val topics = Topics().getAll()
         val listItems = ArrayList<Map<String, Any>>()
