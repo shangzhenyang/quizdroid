@@ -1,85 +1,22 @@
 package edu.uw.quizdroid
 
+import android.os.Environment
 import org.json.JSONArray
-import org.json.JSONObject
+import java.io.File
+import java.io.FileReader
 
 class Topics : TopicRepository {
     private val data = ArrayList<Topic>()
 
     init {
-//        val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-//        val reader = FileReader("$dir/questions.json")
-//        val txt = reader.readText()
-//        reader.close()
-//        Log.i("QuizDroid",txt)
+        val filePath = Environment
+            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            .toString() + "/questions.json"
+        val file = File(filePath)
+        val reader = FileReader(file)
+        var txt = reader.readText()
+        reader.close()
 
-        val txt = """
-            [
-                { "title":"Science!",
-                  "desc":"Because SCIENCE!",
-                  "questions":[
-                    {
-                      "text":"What is fire?",
-                      "answer":"1",
-                      "answers":[
-                        "One of the four classical elements",
-                        "A magical reaction given to us by God",
-                        "A band that hasn't yet been discovered",
-                        "Fire! Fire! Fire! heh-heh"
-                      ]
-                    }
-                  ]
-                },
-                { "title":"Marvel Super Heroes", "desc": "Avengers, Assemble!",
-                  "questions":[
-                    {
-                      "text":"Who is Iron Man?",
-                      "answer":"1",
-                      "answers":[
-                        "Tony Stark",
-                        "Obadiah Stane",
-                        "A rock hit by Megadeth",
-                        "Nobody knows"
-                      ]
-                    },
-                    {
-                      "text":"Who founded the X-Men?",
-                      "answer":"2",
-                      "answers":[
-                        "Tony Stark",
-                        "Professor X",
-                        "The X-Institute",
-                        "Erik Lensherr"
-                      ]
-                    },
-                    {
-                      "text":"How did Spider-Man get his powers?",
-                      "answer":"1",
-                      "answers":[
-                        "He was bitten by a radioactive spider",
-                        "He ate a radioactive spider",
-                        "He is a radioactive spider",
-                        "He looked at a radioactive spider"
-                      ]
-                    }
-                  ]
-                },
-                { "title":"Mathematics", "desc":"Did you pass the third grade?",
-                  "questions":[
-                     {
-                       "text":"What is 2+2?",
-                       "answer":"1",
-                       "answers":[
-                         "4",
-                         "22",
-                         "An irrational number",
-                         "Nobody knows"
-                       ]
-                     }
-                  ]
-               }
-            ]
-        """
         val jsonArr = JSONArray(txt)
         for (i in 0 until jsonArr.length()) {
             val topicJson = jsonArr.getJSONObject(i)

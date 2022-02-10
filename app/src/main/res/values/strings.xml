@@ -16,4 +16,5 @@
     <string name="save">Save</string>
     <string name="saved">Saved!</string>
     <string name="file_not_exist">The file does not exist at %s.</string>
+    <string name="no_permission_read_file">No permission to read files.</string>
 </resources>

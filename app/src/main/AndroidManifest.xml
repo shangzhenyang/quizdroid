@@ -14,7 +14,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.QuizDroid">
+        android:theme="@style/Theme.QuizDroid"
+        android:requestLegacyExternalStorage="true">
         <activity
             android:name=".PreferencesActivity"
             android:exported="false" />
