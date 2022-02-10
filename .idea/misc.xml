@@ -5,10 +5,13 @@
       <map>
         <entry key="app/src/main/res/layout/activity_answer.xml" value="0.18206521739130435" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2682291666666667" />
+        <entry key="app/src/main/res/layout/activity_preferences.xml" value="0.40518149351462335" />
         <entry key="app/src/main/res/layout/activity_question.xml" value="0.18206521739130435" />
         <entry key="app/src/main/res/layout/activity_topic_overview.xml" value="0.18206521739130435" />
         <entry key="app/src/main/res/layout/list.xml" value="0.34692028985507245" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.3255208333333333" />
+        <entry key="app/src/main/res/layout/menu.xml" value="0.1109375" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.22193450927734376" />
       </map>
     </option>
   </component>

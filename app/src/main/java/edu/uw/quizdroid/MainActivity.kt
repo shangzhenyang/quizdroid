@@ -1,16 +1,28 @@
 package edu.uw.quizdroid
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ListView
 import android.widget.SimpleAdapter
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val filePath = Environment.getDataDirectory().toString() + "/questions.json"
+        val file = File(filePath)
+        if (!file.exists()) {
+            Toast.makeText(applicationContext, getString(R.string.file_not_exist, filePath), Toast.LENGTH_LONG).show()
+            return
+        }
         val listTopic = findViewById<ListView>(R.id.list_topic)
         val topics = Topics().getAll()
         val listItems = ArrayList<Map<String, Any>>()
@@ -36,4 +48,20 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == R.id.preferences) {
+            startActivity(
+                Intent(this, PreferencesActivity::class.java)
+            )
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

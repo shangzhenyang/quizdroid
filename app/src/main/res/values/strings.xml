@@ -10,4 +10,10 @@
     <string name="one_question">There is 1 question.</string>
     <string name="multiple_questions">There are %d questions.</string>
     <string name="quiz_list_item_icon_alt">Icon of Quiz List Item</string>
+    <string name="preferences">Preferences</string>
+    <string name="question_url">Question URL</string>
+    <string name="download_duration_min">Download Duration (min)</string>
+    <string name="save">Save</string>
+    <string name="saved">Saved!</string>
+    <string name="file_not_exist">The file does not exist at %s.</string>
 </resources>
