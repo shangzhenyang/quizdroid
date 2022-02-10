@@ -28,19 +28,6 @@ class MainActivity : AppCompatActivity() {
                 0
             )
         }
-
-        val filePath = Environment
-            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            .toString() + "/questions.json"
-        val file = File(filePath)
-        if (!file.exists()) {
-            Toast.makeText(
-                applicationContext,
-                getString(R.string.file_not_exist, filePath),
-                Toast.LENGTH_LONG
-            ).show()
-            return
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -76,6 +63,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initApp() {
+        val filePath = Environment
+            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            .toString() + "/questions.json"
+        val file = File(filePath)
+        if (!file.exists()) {
+            Toast.makeText(
+                applicationContext,
+                getString(R.string.file_not_exist, filePath),
+                Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+        
         val listTopic = findViewById<ListView>(R.id.list_topic)
         val topics = Topics().getAll()
         val listItems = ArrayList<Map<String, Any>>()
