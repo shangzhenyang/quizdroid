@@ -21,7 +21,7 @@ class TopicOverviewActivity : AppCompatActivity() {
         val topic = intent.getStringExtra("topic")
         labelTitle.text = topic
 
-        val topics = Topics()
+        val topics = Topics(applicationContext)
         val topicObj = topics.getByTitle(topic)
         if (topicObj != null) {
             val questionCount = topicObj.questions.size

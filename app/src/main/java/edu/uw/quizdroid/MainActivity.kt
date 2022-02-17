@@ -1,37 +1,54 @@
 package edu.uw.quizdroid
 
 import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Environment
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowManager
 import android.widget.ListView
 import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import java.io.File
+import kotlin.system.exitProcess
+
 
 class MainActivity : AppCompatActivity() {
+    private val broadcastId = "uw.edu.quizdroid.download"
+    private lateinit var broadcastReceiver: BroadcastReceiver
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) ==
-            PackageManager.PERMISSION_GRANTED) {
-            initApp()
-        } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                0
-            )
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val s = intent.getStringExtra("action")
+                when (s) {
+                    "downloadFail" -> {
+                        val alertDialog = AlertDialog.Builder(context)
+                            .setTitle("Download Failed")
+                            .setMessage("Failed to download the questions. Do you want to retry or quit the app?")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton("Retry", DialogInterface.OnClickListener { _, _ ->
+
+                            })
+                            .setNegativeButton("Quit", DialogInterface.OnClickListener { _, _ ->
+                                finish()
+                            })
+                            .show()
+                    }
+                    "downloadSuccess" -> {
+                        initApp()
+                    }
+                }
+            }
         }
 
         val isAirplaneMode = Settings.System.getInt(applicationContext.contentResolver,
@@ -63,6 +80,17 @@ class MainActivity : AppCompatActivity() {
                     .show()
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        LocalBroadcastManager.getInstance(this).registerReceiver((broadcastReceiver),
+            IntentFilter(broadcastId))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver)
     }
 
     override fun onDestroy() {
@@ -106,10 +134,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initApp() {
-        val filePath = Environment
-            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            .toString() + "/questions.json"
-        val file = File(filePath)
+        val filePath = applicationContext.filesDir
+        val file = File(filePath, "questions.json")
         if (!file.exists()) {
             Toast.makeText(
                 applicationContext,
@@ -120,7 +146,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val listTopic = findViewById<ListView>(R.id.list_topic)
-        val topics = Topics().getAll()
+        val topics = Topics(applicationContext).getAll()
         val listItems = ArrayList<Map<String, Any>>()
         for (item in topics) {
             val map = HashMap<String, Any>()

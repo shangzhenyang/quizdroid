@@ -27,7 +27,7 @@ class QuestionActivity : AppCompatActivity() {
 
         var correctCount = intent.getIntExtra("correct_count", 0)
 
-        val topics = Topics()
+        val topics = Topics(applicationContext)
         val questionsArray = topics.getByTitle(topic)?.questions
         val question = questionsArray?.elementAt(questionIndex)
         val answers = question?.answers

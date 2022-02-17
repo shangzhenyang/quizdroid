@@ -1,18 +1,17 @@
 package edu.uw.quizdroid
 
+import android.content.Context
 import android.os.Environment
 import org.json.JSONArray
 import java.io.File
 import java.io.FileReader
 
-class Topics : TopicRepository {
+class Topics(context: Context) : TopicRepository {
     private val data = ArrayList<Topic>()
 
     init {
-        val filePath = Environment
-            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            .toString() + "/questions.json"
-        val file = File(filePath)
+        val filePath = context.filesDir
+        val file = File(filePath, "questions.json")
         val reader = FileReader(file)
         var txt = reader.readText()
         reader.close()
