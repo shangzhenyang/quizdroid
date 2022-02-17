@@ -38,10 +38,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_download_duration"
+            android:id="@+id/input_download_interval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/download_duration_min"
+            android:hint="@string/download_interval_minutes"
             android:textColorHint="#616161"
             android:inputType="number"
             tools:ignore="TextContrastCheck" />

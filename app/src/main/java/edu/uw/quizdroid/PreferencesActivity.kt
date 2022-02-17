@@ -13,16 +13,16 @@ class PreferencesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_preferences)
 
         val inputQuestionUrl = findViewById<TextInputEditText>(R.id.input_question_url)
-        val inputDownloadDuration = findViewById<TextInputEditText>(R.id.input_download_duration)
+        val inputDownloadInterval = findViewById<TextInputEditText>(R.id.input_download_interval)
         val btnSave = findViewById<Button>(R.id.btn_save)
 
         val sharedPref = getSharedPreferences("QuizDroid", MODE_PRIVATE)
         inputQuestionUrl.setText(sharedPref.getString("serverUrl", "http://tednewardsandbox.site44.com/questions.json"))
-        inputDownloadDuration.setText(sharedPref.getString("downloadDuration", "10"))
+        inputDownloadInterval.setText(sharedPref.getString("downloadInterval", "10"))
 
         btnSave.setOnClickListener {
             sharedPref.edit().putString("serverUrl", inputQuestionUrl.text.toString()).apply()
-            sharedPref.edit().putString("downloadDuration", inputDownloadDuration.text.toString()).apply()
+            sharedPref.edit().putString("downloadInterval", inputDownloadInterval.text.toString()).apply()
             Toast.makeText(applicationContext, getString(R.string.saved), Toast.LENGTH_SHORT).show()
             startActivity(
                 Intent(

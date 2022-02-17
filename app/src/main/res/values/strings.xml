@@ -12,9 +12,16 @@
     <string name="quiz_list_item_icon_alt">Icon of Quiz List Item</string>
     <string name="preferences">Preferences</string>
     <string name="question_url">Question URL</string>
-    <string name="download_duration_min">Download Duration (min)</string>
+    <string name="download_interval_minutes">Download Interval (minutes)</string>
     <string name="save">Save</string>
     <string name="saved">Saved!</string>
     <string name="file_not_exist">The file does not exist at %s.</string>
+    <string name="no_permission">No Permission</string>
     <string name="no_permission_read_file">No permission to read files.</string>
+    <string name="no_internet">No Internet</string>
+    <string name="airplane_mode_on">You have airplane mode turned on, which prevents this app from accessing the Internet. Do you want to turn it off?</string>
+    <string name="failed_connect_internet">Failed to connect to the Internet.</string>
+    <string name="service_ended">Download Service Ended</string>
+    <string name="download_service">Download Service</string>
+    <string name="will_download_questions">Will download questions every once in a while.</string>
 </resources>

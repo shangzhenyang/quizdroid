@@ -1,9 +1,14 @@
 package edu.uw.quizdroid
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Environment
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
@@ -28,6 +33,41 @@ class MainActivity : AppCompatActivity() {
                 0
             )
         }
+
+        val isAirplaneMode = Settings.System.getInt(applicationContext.contentResolver,
+            Settings.Global.AIRPLANE_MODE_ON, 0) != 0
+        if (isAirplaneMode) {
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.no_internet))
+                .setMessage(getString(R.string.airplane_mode_on))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
+                    val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+                    startActivity(intent)
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+        } else {
+            val cm = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetwork = cm.activeNetworkInfo
+            val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+            if (isConnected) {
+                val intent = Intent(applicationContext, DownloadService::class.java)
+                startForegroundService(intent)
+            } else {
+                AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.no_internet))
+                    .setMessage(getString(R.string.failed_connect_internet))
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopService(Intent(applicationContext, DownloadService::class.java))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -48,17 +88,20 @@ class MainActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String?>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             initApp()
         } else {
-            Toast.makeText(
-                applicationContext,
-                getString(R.string.no_permission_read_file),
-                Toast.LENGTH_LONG
-            ).show()
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.no_permission))
+                .setMessage(getString(R.string.no_permission_read_file))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
+                    finish()
+                })
+                .show()
         }
     }
 
@@ -75,7 +118,7 @@ class MainActivity : AppCompatActivity() {
             ).show()
             return
         }
-        
+
         val listTopic = findViewById<ListView>(R.id.list_topic)
         val topics = Topics().getAll()
         val listItems = ArrayList<Map<String, Any>>()
