@@ -2,14 +2,12 @@ package edu.uw.quizdroid
 
 import android.app.*
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -19,7 +17,6 @@ import com.android.volley.toolbox.Volley
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
-import kotlin.system.exitProcess
 
 class DownloadService : Service() {
     private val handler = Handler(Looper.getMainLooper())

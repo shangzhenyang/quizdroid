@@ -8,16 +8,12 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.view.WindowManager
 import android.widget.ListView
 import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import java.io.File
-import kotlin.system.exitProcess
-
 
 class MainActivity : AppCompatActivity() {
     private val broadcastId = "uw.edu.quizdroid.download"
@@ -29,17 +25,25 @@ class MainActivity : AppCompatActivity() {
 
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                val s = intent.getStringExtra("action")
-                when (s) {
+                when (intent.getStringExtra("action")) {
                     "downloadFail" -> {
-                        val alertDialog = AlertDialog.Builder(context)
-                            .setTitle("Download Failed")
-                            .setMessage("Failed to download the questions. Do you want to retry or quit the app?")
+                        AlertDialog.Builder(this@MainActivity)
+                            .setTitle(getString(R.string.download_failed))
+                            .setMessage(getString(R.string.failed_to_download_questions))
                             .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setPositiveButton("Retry", DialogInterface.OnClickListener { _, _ ->
-
+                            .setPositiveButton(getString(R.string.retry), DialogInterface.OnClickListener { _, _ ->
+                                AlertDialog.Builder(this@MainActivity)
+                                    .setTitle(getString(R.string.tip))
+                                    .setMessage(getString(R.string.will_open_preferences))
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { _,_ ->
+                                        startActivity(
+                                            Intent(this@MainActivity, PreferencesActivity::class.java)
+                                        )
+                                    })
+                                    .show()
                             })
-                            .setNegativeButton("Quit", DialogInterface.OnClickListener { _, _ ->
+                            .setNegativeButton(getString(R.string.quit), DialogInterface.OnClickListener { _, _ ->
                                 finish()
                             })
                             .show()

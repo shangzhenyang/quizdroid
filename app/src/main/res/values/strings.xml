@@ -24,4 +24,10 @@
     <string name="service_ended">Download Service Ended</string>
     <string name="download_service">Download Service</string>
     <string name="will_download_questions">Will download questions every once in a while.</string>
+    <string name="download_failed">Download Failed</string>
+    <string name="failed_to_download_questions">Failed to download the questions. Do you want to retry or quit the app and try again later?</string>
+    <string name="retry">Retry</string>
+    <string name="quit">Quit</string>
+    <string name="tip">Tip</string>
+    <string name="will_open_preferences">"Will open the preferences page. If you set a wrong URL, you can change it there. Once you click Save, we will retry downloading."</string>
 </resources>

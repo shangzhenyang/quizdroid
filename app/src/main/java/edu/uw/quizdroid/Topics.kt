@@ -1,7 +1,6 @@
 package edu.uw.quizdroid
 
 import android.content.Context
-import android.os.Environment
 import org.json.JSONArray
 import java.io.File
 import java.io.FileReader
